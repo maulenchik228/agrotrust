@@ -3,8 +3,8 @@
 ## Set up
 
 ```bash
-git clone https://github.com/<your-username>/agrotrust-metrics.git
-cd agrotrust-metrics
+git clone https://github.com/maulenchik228/agrotrust.git
+cd agrotrust
 python -m venv .venv && source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -e ".[dev]"
 ```

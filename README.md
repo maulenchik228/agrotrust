@@ -1,6 +1,6 @@
 # agrotrust-metrics
 
-[![CI](https://github.com/<your-username>/agrotrust-metrics/actions/workflows/ci.yml/badge.svg)](https://github.com/<your-username>/agrotrust-metrics/actions/workflows/ci.yml)
+[![CI](https://github.com/maulenchik228/agrotrust/actions/workflows/ci.yml/badge.svg)](https://github.com/maulenchik228/agrotrust/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 ![Python](https://img.shields.io/badge/python-3.10%E2%80%933.13-blue)
 
@@ -20,8 +20,8 @@ greenhouse testbed.
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/agrotrust-metrics.git
-cd agrotrust-metrics
+git clone https://github.com/maulenchik228/agrotrust.git
+cd agrotrust
 pip install -e .            # or: pip install -e ".[dev]" for tests and linting
 ```
 

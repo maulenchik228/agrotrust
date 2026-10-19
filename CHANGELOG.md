@@ -4,6 +4,16 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.2.0] - 2026-10-20
+
+### Added
+- `agrometrics report`: static HTML reliability report with key figures, timeline, downtime by cause and per-node table.
+- Multi-stage `Dockerfile` (non-root runtime image) with a `serve` mode that publishes the demo report on port 8000.
+- `Jenkinsfile` with lint, unit tests (JUnit), Docker build, smoke test, optional Docker Hub push and test-server deployment.
+- Local Jenkins in `jenkins/` (Docker Compose, plugin list, Configuration as Code that creates the job).
+- Kubernetes manifests in `k8s/` and `deploy/minikube.sh` for deployment to Minikube.
+- Docker build and smoke test job in GitHub Actions.
+
 ## [0.1.0] - 2026-10-08
 
 ### Added

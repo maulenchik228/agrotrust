@@ -103,6 +103,22 @@ or more intervals were detected (recall 1.0, precision 1.0 over 20 seeds), with 
 error in outage length of about 3 minutes. The test suite repeats a strict version of this
 check on every commit.
 
+## Docker
+
+```bash
+docker build -t agrotrust-metrics .
+docker run --rm agrotrust-metrics summarize examples/sample_readings.csv   # mount data with -v
+docker run --rm -p 8000:8000 agrotrust-metrics serve                       # demo report on :8000
+```
+
+## Jenkins CI/CD
+
+A `Jenkinsfile` defines the pipeline: lint, unit tests with a JUnit report, Docker image build,
+smoke test, optional push to Docker Hub and deployment of the new version to a test server.
+`jenkins/` contains a ready Jenkins (Docker Compose, plugins and Configuration as Code that
+creates the job automatically), and `k8s/` with `deploy/minikube.sh` deploys the image to
+Minikube. Step-by-step guide: [docs/devops.md](docs/devops.md).
+
 ## Development
 
 ```bash

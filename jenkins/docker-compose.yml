@@ -1,0 +1,22 @@
+# Local Jenkins for the agrotrust-metrics pipeline.
+#   cd jenkins && docker compose up -d --build
+#   open http://localhost:8080  (login: admin / value of JENKINS_ADMIN_PASSWORD, default "admin")
+services:
+  jenkins:
+    build: .
+    image: agrotrust-jenkins:local
+    container_name: agrotrust-jenkins
+    # root inside the container so that Jenkins can use the mounted Docker socket on
+    # Docker Desktop and Linux alike; acceptable for a local lab, not for production
+    user: root
+    ports:
+      - "8080:8080"
+    environment:
+      JENKINS_ADMIN_PASSWORD: "${JENKINS_ADMIN_PASSWORD:-admin}"
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  jenkins_home:

@@ -30,6 +30,10 @@ td:first-child,th:first-child{text-align:left}img{max-width:100%;border:1px soli
 """
 
 
+def _minutes(interval) -> str:
+    return f"{pd.Timedelta(interval) / pd.Timedelta(minutes=1):g}"
+
+
 def _kpis(fleet: pd.Series) -> str:
     items = [
         (f"{fleet['availability']:.2%}", "availability"),
@@ -76,7 +80,7 @@ def build_report(
 <title>{html.escape(title)}</title><style>{STYLE}</style></head>
 <body><h1>{html.escape(title)}</h1>
 <p class="meta">Generated {stamp} by agrotrust-metrics {__version__}.
-{len(table)} nodes, sampling interval {pd.Timedelta(interval)}.</p>
+{len(table)} nodes, sampling interval {_minutes(interval)} min.</p>
 {_kpis(fleet)}
 <h2>Outage timeline</h2><p><img src="timeline.png" alt="Outage timeline per node"></p>
 {causes_html}

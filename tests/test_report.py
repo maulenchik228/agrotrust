@@ -13,6 +13,7 @@ def test_build_report_writes_all_files(tmp_path):
     index = build_report(clean_readings(readings), IV, tmp_path / "site", clean_events(events))
     text = index.read_text(encoding="utf-8")
     assert "availability" in text and "Downtime by cause" in text
+    assert "sampling interval 10 min" in text
     for name in ("timeline.png", "causes.png", "summary.csv"):
         assert (tmp_path / "site" / name).stat().st_size > 0
 

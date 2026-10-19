@@ -1,0 +1,51 @@
+# Test deployment of the agrotrust-metrics report server on Kubernetes (Minikube or k3s).
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: agrotrust-report
+  labels:
+    app: agrotrust-report
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: agrotrust-report
+  template:
+    metadata:
+      labels:
+        app: agrotrust-report
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+      containers:
+        - name: report
+          image: agrotrust-metrics:latest
+          imagePullPolicy: IfNotPresent
+          args: ["serve"]
+          env:
+            - name: NODES
+              value: "14"
+            - name: DAYS
+              value: "30"
+          ports:
+            - containerPort: 8000
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 768Mi

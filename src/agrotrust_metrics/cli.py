@@ -1,4 +1,4 @@
-"""Command-line interface: ``agrometrics simulate | summarize | plot``."""
+"""Command-line interface: ``agrometrics simulate | summarize | plot | report``."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from . import __version__
 from .io import load_events, load_readings
 from .metrics import attach_causes, failures_by_cause, find_outages, overall, summarize
 from .plot import plot_causes, plot_timeline
+from .report import build_report
 from .simulate import simulate_fleet
 
 
@@ -60,6 +61,14 @@ def cmd_plot(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_report(args: argparse.Namespace) -> int:
+    readings = load_readings(args.readings)
+    events = load_events(args.events) if args.events else None
+    index = build_report(readings, _interval(args), args.out, events, args.min_missed)
+    print(f"wrote {index}")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="agrometrics",
@@ -97,6 +106,14 @@ def build_parser() -> argparse.ArgumentParser:
     plot.add_argument("--out", default="timeline.png")
     plot.add_argument("--causes-out", help="also draw downtime by cause (needs --events)")
     plot.set_defaults(func=cmd_plot)
+
+    rep = sub.add_parser("report", help="write an HTML report with metrics and figures")
+    common(rep)
+    rep.add_argument("readings", help="readings CSV")
+    rep.add_argument("--events", help="failure events CSV, adds downtime by cause")
+    rep.add_argument("--min-missed", type=int, default=3)
+    rep.add_argument("--out", default="site", help="output directory")
+    rep.set_defaults(func=cmd_report)
     return parser
 
 

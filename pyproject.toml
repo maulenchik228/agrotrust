@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agrotrust-metrics"
-version = "0.1.0"
+version = "0.2.0"
 description = "Reliability metrics for IoT agricultural monitoring data: availability, MTBF, MTTR, completeness, delivery ratio and failure causes"
 readme = "README.md"
 requires-python = ">=3.10"

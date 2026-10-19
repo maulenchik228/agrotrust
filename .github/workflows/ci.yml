@@ -87,6 +87,28 @@ jobs:
             timeline.png
             causes.png
 
+  docker:
+    name: Docker image build and smoke test
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image
+        run: docker build -t agrotrust-metrics:ci .
+      - name: Smoke test the CLI
+        run: |
+          docker run --rm agrotrust-metrics:ci --version
+          docker run --rm agrotrust-metrics:ci simulate --nodes 3 --days 2 --out /tmp/data
+      - name: Smoke test the report server
+        run: |
+          docker run -d --name report -p 8000:8000 agrotrust-metrics:ci serve
+          for i in $(seq 1 60); do
+            if curl -fsS http://localhost:8000/ > /dev/null; then echo "report server is up"; exit 0; fi
+            sleep 2
+          done
+          docker logs report
+          exit 1
+
   build:
     name: Build package
     needs: test
